@@ -1,47 +1,71 @@
 <script setup>
-import {ref, watch} from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import NavLink from '@/Components/NavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import api from '@/Plugins/axios';
-import Loading from "@/Components/Loading.vue";
-import {useLoadingStore} from "@/Stores/loadingStore";
+import { useLoadingStore } from "@/Stores/loadingStore";
 
-const isSidebarOpen = ref(true); // Estado para controlar a visibilidade do menu lateral
-const isUsersSubMenuOpen = ref(false); // Estado para o submenu de "Usuários"
-const isReportsSubMenuOpen = ref(false); // Estado para o submenu de "Relatórios"
+const isSidebarOpen = ref(true); // Estado do menu lateral
+const isUsersSubMenuOpen = ref(false);
+const isReportsSubMenuOpen = ref(false);
 const loadingStore = useLoadingStore();
-const sizeWindows = window.innerWidth;
 
-watch(sizeWindows, (newVal) => {
-    console.log(sizeWindows);
-})
-const logout = async() => {
-    try{
+// Criando um ref para armazenar a largura da tela
+const windowWidth = ref(window.innerWidth);
+
+// Função para atualizar a largura da tela
+const updateWindowWidth = () => {
+    windowWidth.value = window.innerWidth;
+};
+
+// Criando um watch para reagir às mudanças na largura da tela
+watch(windowWidth, (newWidth) => {
+    console.log("Largura da tela:", newWidth);
+
+
+    // Define a visibilidade do menu com base no tamanho da tela
+    if (newWidth < 1023) {
+        isSidebarOpen.value = false; // Fecha o menu em telas pequenas
+        console.log(isSidebarOpen.value);
+    } else {
+        isSidebarOpen.value = true; // Mantém aberto em telas maiores
+        console.log(isSidebarOpen.value);
+    }
+});
+
+// Adicionando e removendo o event listener corretamente
+onMounted(() => {
+    window.addEventListener("resize", updateWindowWidth);
+});
+
+onUnmounted(() => {
+    window.removeEventListener("resize", updateWindowWidth);
+});
+
+// Função de logout
+const logout = async () => {
+    try {
         loadingStore.$state.message = 'Aguarde encerrando a sessão...';
         loadingStore.startLoading(true);
         await api.post(route('logout'));
         setTimeout(() => {
-
             loadingStore.stopLoading(false);
             window.location.href = route('login');
         }, 3000);
-
-    }catch (error) {
+    } catch (error) {
         console.log(error);
     }
+};
 
-
-
-}
+// Alternar sidebar manualmente
 const toggleSidebar = () => {
-    console.log(isSidebarOpen.value);
     isSidebarOpen.value = !isSidebarOpen.value;
-    // Fechar todos os submenus quando o menu lateral for fechado
     isUsersSubMenuOpen.value = false;
     isReportsSubMenuOpen.value = false;
 };
 </script>
+
 
 
 <template>
@@ -53,8 +77,8 @@ const toggleSidebar = () => {
                 :class="{
                     'lg:w-64': isSidebarOpen,
                     'lg:w-16': !isSidebarOpen,
-                    'md:w-16': isSidebarOpen,
-                    'md:w-64': !isSidebarOpen
+                   /*'md:w-16': isSidebarOpen,
+                    'md:w-64': !isSidebarOpen*/
 
 
                 }"
@@ -83,7 +107,7 @@ const toggleSidebar = () => {
                             <li>
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="menu-item">
                                     <i class="fas fa-tachometer-alt mr-3"></i>
-                                    <span v-if="!isSidebarOpen">Dashboard</span>
+                                    <span v-if="isSidebarOpen">Dashboard</span>
                                 </NavLink>
                             </li>
 
@@ -95,11 +119,11 @@ const toggleSidebar = () => {
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center">
                                             <i class="fas fa-list mr-3"></i>
-                                            <span v-if="!isSidebarOpen">Cadastros</span>
+                                            <span v-if="isSidebarOpen">Cadastros</span>
                                         </div>
                                         <!-- Ícone alinhado à direita -->
                                         <i
-                                            v-if="!isSidebarOpen"
+                                            v-if="isSidebarOpen"
                                             :class="isUsersSubMenuOpen ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"
                                             class="icon-link"
                                         ></i>
@@ -109,13 +133,13 @@ const toggleSidebar = () => {
                                     <li>
                                         <NavLink :href="route('users.index')" :active="route().current('users.index')" class="submenu-item">
                                             <i class="fas fa-users mr-3"></i>
-                                            <span v-if="!isSidebarOpen">Usuários</span>
+                                            <span v-if="isSidebarOpen">Usuários</span>
                                         </NavLink>
                                     </li>
                                     <li>
                                         <NavLink :href="route('dashboard')" :active="route().current('users.create')" class="submenu-item">
                                             <i class="fas fa-user-plus mr-3"></i>
-                                            <span v-if="!isSidebarOpen">Criar Usuário</span>
+                                            <span v-if="isSidebarOpen">Criar Usuário</span>
                                         </NavLink>
                                     </li>
                                 </ul>
@@ -129,11 +153,11 @@ const toggleSidebar = () => {
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center">
                                             <i class="fas fa-chart-bar mr-3"></i>
-                                            <span v-if="!isSidebarOpen">Relatórios</span>
+                                            <span v-if="isSidebarOpen">Relatórios</span>
                                         </div>
                                         <!-- Ícone alinhado à direita -->
                                         <i
-                                            v-if="!isSidebarOpen"
+                                            v-if="isSidebarOpen"
                                             :class="isReportsSubMenuOpen ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"
                                             class="icon-link"
                                         ></i>
@@ -143,13 +167,13 @@ const toggleSidebar = () => {
                                     <li>
                                         <NavLink :href="route('dashboard')" :active="route().current('reports.monthly')" class="submenu-item">
                                             <i class="fas fa-calendar-day mr-3"></i>
-                                            <span v-if="!isSidebarOpen">Relatórios Mensais</span>
+                                            <span v-if="isSidebarOpen">Relatórios Mensais</span>
                                         </NavLink>
                                     </li>
                                     <li>
                                         <NavLink :href="route('dashboard')" :active="route().current('reports.yearly')" class="submenu-item">
                                             <i class="fas fa-calendar-year mr-3"></i>
-                                            <span v-if="!isSidebarOpen">Relatórios Anuais</span>
+                                            <span v-if="isSidebarOpen">Relatórios Anuais</span>
                                         </NavLink>
                                     </li>
                                 </ul>
@@ -159,7 +183,7 @@ const toggleSidebar = () => {
                             <li>
                                 <NavLink :href="route('dashboard')" :active="route().current('settings')" class="menu-item">
                                     <i class="fas fa-cogs mr-3"></i>
-                                    <span v-if="!isSidebarOpen">Configurações</span>
+                                    <span v-if="isSidebarOpen">Configurações</span>
                                 </NavLink>
                             </li>
                         </ul>
