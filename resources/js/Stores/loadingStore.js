@@ -3,7 +3,7 @@ import { usePage } from "@inertiajs/vue3";
 
 export const useLoadingStore = defineStore("loading", {
     state: () => ({
-        start: true,
+        start: false,
         message: 'Carregando...',
     }),
     actions: {

@@ -1,13 +1,14 @@
 <script setup>
 import {useSideBarStore} from "@/Stores/sideBarStore";
 import {ref} from "vue";
+import NavLink from "@/Components/NavLink.vue";
 const sideBarStore = useSideBarStore();
 
 </script>
 
 <template>
     <div class="layout-sidebar">
-        <Drawer v-model:visible="sideBarStore.$state.visible">
+        <Drawer v-model:visible="sideBarStore.$state.visible" class="bg-gray-700 text-gray-50">
             <template #container="{ closeCallback }">
                 <div class="flex flex-col h-full">
                     <!--<div class="flex items-center justify-between px-6 pt-4 shrink-0">
@@ -28,6 +29,70 @@ const sideBarStore = useSideBarStore();
                     </div>-->
                     <div class="overflow-y-auto">
                         <ul class="list-none p-4 m-0">
+                            <li>
+                                <NavLink :href="route('dashboard')" v-ripple class="nav-item flex items-center cursor-pointer p-4 rounded  duration-150 transition-colors p-ripple">
+                                    <i class="pi pi-home mr-2"></i>
+                                    <span class="font-medium ">Dashboard</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <a
+                                    v-ripple
+                                    v-styleclass="{
+                                                            selector: '@next',
+                                                            enterFromClass: 'hidden',
+                                                            enterActiveClass: 'animate-slidedown',
+                                                            leaveToClass: 'hidden',
+                                                            leaveActiveClass: 'animate-slideup'
+                                                        }"
+                                    class="nav-item flex items-center cursor-pointer p-4 rounded  duration-150 transition-colors p-ripple"
+                                >
+                                    <i class="pi pi-chart-line mr-2"></i>
+                                    <span class="font-medium">Reports</span>
+                                    <i class="pi pi-chevron-down ml-auto"></i>
+                                </a>
+                                <ul class="list-none py-0 pl-4 pr-0 m-0 hidden overflow-y-hidden transition-all duration-[400ms] ease-in-out">
+                                    <li>
+                                        <a
+                                            v-ripple
+                                            v-styleclass="{
+                                                                    selector: '@next',
+                                                                    enterFromClass: 'hidden',
+                                                                    enterActiveClass: 'animate-slidedown',
+                                                                    leaveToClass: 'hidden',
+                                                                    leaveActiveClass: 'animate-slideup'
+                                                                }"
+                                            class="flex items-center cursor-pointer p-4 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple"
+                                        >
+                                            <i class="pi pi-chart-line mr-2"></i>
+                                            <span class="font-medium">Revenue</span>
+                                            <i class="pi pi-chevron-down ml-auto"></i>
+                                        </a>
+                                        <ul class="list-none py-0 pl-4 pr-0 m-0 hidden overflow-y-hidden transition-all duration-[400ms] ease-in-out">
+                                            <li>
+                                                <a v-ripple class="flex items-center cursor-pointer p-4 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple">
+                                                    <i class="pi pi-table mr-2"></i>
+                                                    <span class="font-medium">View</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a v-ripple class="flex items-center cursor-pointer p-4 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple">
+                                                    <i class="pi pi-search mr-2"></i>
+                                                    <span class="font-medium">Search</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a v-ripple class="flex items-center cursor-pointer p-4 rounded text-surface-700 hover:bg-surface-100 dark:text-surface-0 dark:hover:bg-surface-800 duration-150 transition-colors p-ripple">
+                                            <i class="pi pi-chart-line mr-2"></i>
+                                            <span class="font-medium">Expenses</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!--<ul class="list-none p-4 m-0">
                             <li>
                                 <div
                                     v-ripple
@@ -139,7 +204,7 @@ const sideBarStore = useSideBarStore();
                                     </li>
                                 </ul>
                             </li>
-                        </ul>
+                        </ul>-->
 
                     </div>
                     <div class="mt-auto">
@@ -157,5 +222,18 @@ const sideBarStore = useSideBarStore();
 </template>
 
 <style scoped>
+ul li a:hover {
+    border-bottom: 3px solid #1E40AF !important;
+}
+ul li .nav-item{
+   padding: 10px !important;
+   font-size: 18px !important;
+}
+.nav-item{
+    width: 100%;
+    color: #e5e7eb !important;
+    margin-top: 10px !important;
+
+}
 
 </style>
