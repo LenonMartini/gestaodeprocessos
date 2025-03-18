@@ -1,5 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
+import Button from 'primevue/button';
+import Card from 'primevue/card';
 
 defineProps({
     canLogin: {
@@ -26,28 +28,30 @@ defineProps({
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white"
     >
         <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-end">
-            <Link
+            <Button
                 v-if="$page.props.auth.user"
-                :href="route('dashboard')"
-                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-            >Dashboard
-            </Link
-            >
-
+                :label="'Dashboard'"
+                :icon="'pi pi-cog'"
+                class="p-button-text text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                :to="route('dashboard')"
+            />
             <template v-else>
                 <Link
                     :href="route('login')"
-                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                    class="p-button-text text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                 >
-                    Acessar
+                    <Button
+                        :label="'Acessar'"
+                        :icon="'pi pi-sign-in'"
+                        class="p-button-text text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-white "
+                        :to="route('login')"
+                    />
                 </Link>
-
-
 
             </template>
         </div>
 
-        <div class="max-w-7xl mx-auto p-6 lg:p-8">
+        <div class="max-w-7xl mx-auto p-6 lg:p-8 flex flex-col justify-between flex-1">
             <!-- Título de boas-vindas -->
             <div class="text-center">
                 <h1 class="text-6xl font-bold text-gray-900 dark:text-white mb-4">
@@ -60,39 +64,32 @@ defineProps({
 
             <!-- Cards de funcionalidades -->
             <div class="mt-16">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                    <a
-                        href="https://laravel.com/docs"
-                        class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500"
+                <div class="grid grid-cols-1 sm:grid-cols-2 justify-center ">
+                    <Card
+                        class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none"
                     >
-                        <div>
-                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                Documentação
-                            </h2>
-                            <p class="mt-4 text-gray-600 dark:text-gray-400">
-                                Aprenda como utilizar todas as funcionalidades do sistema.
+                        <template #header>
+                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white text-center">Avalie nosso Atendimento</h2>
+                        </template>
+                        <template #content>
+                            <p class="mt-2 text-gray-600 dark:text-gray-400">
+                                Clique em acessar e avalie nosso atendimento.
                             </p>
-                        </div>
-                    </a>
+                            <Button
+                                label="Acessar"
+                                class="p-button-text text-blue-600 hover:text-blue-900 mt-4"
+                                icon="pi pi-arrow-right"
+                                :href="'https://laravel.com/docs'"
+                            />
+                        </template>
+                    </Card>
 
-                    <a
-                        href="#"
-                        class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500"
-                    >
-                        <div>
-                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                Suporte
-                            </h2>
-                            <p class="mt-4 text-gray-600 dark:text-gray-400">
-                                Precisa de ajuda? Entre em contato com nossa equipe de suporte.
-                            </p>
-                        </div>
-                    </a>
+
                 </div>
             </div>
 
             <!-- Rodapé -->
-            <div class="flex justify-center mt-16 px-6 sm:items-center sm:justify-between">
+            <div class="flex justify-center mt-16 px-6 sm:items-center sm:justify-between ">
                 <div class="text-center text-sm sm:text-start">&nbsp;</div>
 
                 <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-end sm:ms-0">

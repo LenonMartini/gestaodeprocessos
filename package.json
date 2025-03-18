@@ -6,6 +6,7 @@
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",
+        "@primevue/auto-import-resolver": "^4.3.2",
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-vue": "^5.0.0",
         "autoprefixer": "^10.4.12",
@@ -13,14 +14,16 @@
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.31",
         "tailwindcss": "^3.2.1",
+        "unplugin-vue-components": "^28.4.1",
         "vite": "^6.2.1",
         "vue": "^3.4.0"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.7.2",
+        "@primeuix/themes": "^1.0.0",
         "pinia": "^3.0.1",
         "primeflex": "^4.0.0",
         "primeicons": "^7.0.0",
-        "primevue": "^3.39.0"
+        "primevue": "^4.3.2"
     }
 }

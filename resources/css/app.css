@@ -6,3 +6,69 @@
 input:focus {
     outline: none;
 }
+.card .p-menubar{
+    border: none !important;
+}
+.card .p-menubar .p-menubar-button{
+    display: none !important;
+}
+.p-drawer-mask {
+    /*background-color: rgba(0, 0, 0, 0.5) !important; */
+    background-color: transparent !important;
+    transition: none !important; /* Remove todas as transições */
+    opacity: 1 !important; /* Define a opacidade como 100% */
+    pointer-events: none !important;
+
+}
+.p-drawer-mask .p-drawer{
+    top: 60px !important;
+    border: none;
+
+
+
+}
+
+
+
+/* Animação de slide para baixo */
+@keyframes slidedown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-slidedown {
+    animation: slidedown 0.3s ease-in-out;
+}
+
+/* Animação de slide para cima */
+@keyframes slideup {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.animate-slideup {
+    animation: slideup 0.3s ease-in-out;
+}
+
+.hidden {
+    display: none;
+}
+/* Largura do Drawer */
+.drawer-open {
+    margin-left: 300px; /* Ajuste este valor conforme a largura do seu Drawer */
+    transition: margin-left 0.3s ease; /* Adiciona uma transição suave */
+}
+
+
